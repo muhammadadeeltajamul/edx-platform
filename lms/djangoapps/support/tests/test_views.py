@@ -1394,6 +1394,7 @@ class SAMLProvidersWithOrgTests(SupportViewTestCase):
                 slug=org_key,
                 enabled=True,
             )
+
     def test_returning_saml_providers(self):
         response = self.client.get(self._url)
         response_data = json.loads(response.content.decode('utf-8'))
