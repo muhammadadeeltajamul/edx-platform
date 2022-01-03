@@ -13,6 +13,9 @@ from openedx.core.djangoapps.user_authn.config.waffle import ENABLE_PWNED_PASSWO
 
 log = logging.getLogger(__name__)
 
+SHA_LENGTH = 40
+HEX_BASE = 16
+
 
 def convert_password_tuple(value):
     """
@@ -47,6 +50,10 @@ class PwnedPasswordsAPI:
                 "7ecd77ecd77ecd7": 12,
             }
         """
+        is_encrypted = PwnedPasswordsAPI.is_sha1(password)
+        if not is_encrypted:
+            password = hashlib.sha1(password.encode('utf-8')).hexdigest().upper()
+
         range_url = PwnedPasswordsAPI.API_URL + '/range/{}'.format(password[:5])
 
         if ENABLE_PWNED_PASSWORD_API.is_enabled():
@@ -61,3 +68,16 @@ class PwnedPasswordsAPI:
 
             except Exception as exc:  # pylint: disable=W0703
                 log.exception(f"Unable to range the password: {exc}")
+
+    @staticmethod
+    def is_sha1(maybe_sha):
+
+        if len(maybe_sha) != SHA_LENGTH:
+            return False
+
+        try:
+            sha_int = int(maybe_sha, HEX_BASE)
+        except ValueError:
+            return True
+
+        return True
