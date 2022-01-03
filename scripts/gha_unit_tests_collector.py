@@ -15,31 +15,23 @@ def get_all_unit_test_shards():
 
 def get_modules_except_cms():
     all_unit_test_shards = get_all_unit_test_shards()
-    return [shard_conf['path'] for shard_name, shard_conf in all_unit_test_shards.items() if not shard_conf['path'].startswith('cms')]
-
+    return set([shard.get('path') for shard in all_unit_test_shards.items() if not shard.get('settings').startswith('cms')])
 
 def get_cms_modules():
     all_unit_test_shards = get_all_unit_test_shards()
-    return [shard_conf['path'] for shard_name, shard_conf in all_unit_test_shards.items() if shard_conf['path'].startswith('cms')]
+    return set([shard.get('path') for shard in all_unit_test_shards.items() if shard.get('settings').startswith('cms')])
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--cms-only", action="store_true", default="")
     parser.add_argument("--lms-only", action="store_true", default="")
-
     argument = parser.parse_args()
 
-    if argument.lms_only:
-        modules = get_modules_except_cms()
-    elif argument.cms_only:
-        modules = get_cms_modules()
-    else:
-        modules = []
+    if not argument.cms_only and not argument.lms_only:
+        print("Please specify --cms-only or --lms-only")
+        sys.exit(1)
 
-    unique_modules = set()
-    for module in modules:
-        unique_modules.update(set(module.split(" ")))
-
-    unit_test_paths = ' '.join(unique_modules)
-    sys.stdout.write(unit_test_paths)
+    modules = get_cms_modules() if argument.cms_only else get_modules_except_cms()
+    paths_output = ' '.join(modules)
+    sys.stdout.write(paths_output)
