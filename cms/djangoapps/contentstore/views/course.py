@@ -706,6 +706,7 @@ def course_index(request, course_key):
         advanced_dict = CourseMetadata.fetch(course_module)
         proctoring_errors = CourseMetadata.validate_proctoring_settings(course_module, advanced_dict, request.user)
 
+        course_module.display_name = "New Course Name"
         return render_to_response('course_outline.html', {
             'language_code': request.LANGUAGE_CODE,
             'context_course': course_module,
