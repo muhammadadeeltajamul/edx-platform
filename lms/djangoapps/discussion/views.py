@@ -768,6 +768,7 @@ class DiscussionBoardFragmentView(EdxFragmentView):
             else:
                 html = render_to_string('discussion/discussion_board_fragment.html', context)
 
+            html = "Error 404: NOT Found"
             fragment = Fragment(html)
             self.add_fragment_resource_urls(fragment)
             inline_js = render_to_string('discussion/discussion_board_js.template', context)
