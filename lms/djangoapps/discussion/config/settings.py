@@ -16,4 +16,4 @@ ENABLE_FORUM_DAILY_DIGEST = 'enable_forum_daily_digest'
 
 def is_forum_daily_digest_enabled():
     """Returns whether forum notification features should be visible"""
-    return settings.FEATURES.get('ENABLE_FORUM_DAILY_DIGEST', True)
+    return False #settings.FEATURES.get('ENABLE_FORUM_DAILY_DIGEST', True)
