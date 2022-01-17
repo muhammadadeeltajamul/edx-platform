@@ -13,3 +13,4 @@ WAFFLE_FLAG_NAMESPACE = "discussions"
 # .. toggle_creation_date: 2021-11-05
 # .. toggle_target_removal_date: 2022-03-05
 ENABLE_DISCUSSIONS_MFE = CourseWaffleFlag(WAFFLE_FLAG_NAMESPACE, 'enable_discussions_mfe', __name__)
+DISCUSSION_DISABLED = CourseWaffleFlag(WAFFLE_FLAG_NAMESPACE, 'disable_discussion_tab', __name__)

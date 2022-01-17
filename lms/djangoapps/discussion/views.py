@@ -45,7 +45,7 @@ from lms.djangoapps.discussion.django_comment_client.utils import (
     strip_none,
 )
 from lms.djangoapps.discussion.exceptions import TeamDiscussionHiddenFromUserException
-from lms.djangoapps.discussion.toggles import ENABLE_DISCUSSIONS_MFE
+from lms.djangoapps.discussion.toggles import ENABLE_DISCUSSIONS_MFE, DISCUSSION_DISABLED
 from lms.djangoapps.experiments.utils import get_experiment_user_metadata_context
 from lms.djangoapps.teams import api as team_api
 from openedx.core.djangoapps.discussions.url_helpers import get_discussions_mfe_url
@@ -762,13 +762,15 @@ class DiscussionBoardFragmentView(EdxFragmentView):
             context.update({
                 'course_expiration_fragment': course_expiration_fragment,
             })
-            if profile_page_context:
+            
+            if DISCUSSION_DISABLED.is_enabled(course_key):
+                html = "Error 404: NOT Found"
+            elif profile_page_context:
                 # EDUCATOR-2119: styles are hard to reconcile if the profile page isn't also a fragment
                 html = render_to_string('discussion/discussion_profile_page.html', profile_page_context)
             else:
                 html = render_to_string('discussion/discussion_board_fragment.html', context)
 
-            html = "Error 404: NOT Found"
             fragment = Fragment(html)
             self.add_fragment_resource_urls(fragment)
             inline_js = render_to_string('discussion/discussion_board_js.template', context)
