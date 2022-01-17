@@ -8,7 +8,7 @@ from django.utils.translation import gettext_noop
 
 import lms.djangoapps.discussion.django_comment_client.utils as utils
 from lms.djangoapps.courseware.tabs import EnrolledTab
-from lms.djangoapps.discussion.toggles import ENABLE_DISCUSSIONS_MFE
+from lms.djangoapps.discussion.toggles import ENABLE_DISCUSSIONS_MFE, DISCUSSION_DISABLED
 from openedx.core.djangoapps.discussions.url_helpers import get_discussions_mfe_url
 from openedx.features.lti_course_tab.tab import DiscussionLtiCourseTab
 from xmodule.tabs import TabFragmentViewMixin  # lint-amnesty, pylint: disable=wrong-import-order
@@ -45,6 +45,8 @@ class DiscussionTab(TabFragmentViewMixin, EnrolledTab):
 
     @classmethod
     def is_enabled(cls, course, user=None):
+        if DISCUSSION_DISABLED.is_enabled(course.id):
+            return False
         if not super().is_enabled(course, user):
             return False
         # Disable the regular discussion tab if LTI-based external Discussion forum is enabled
