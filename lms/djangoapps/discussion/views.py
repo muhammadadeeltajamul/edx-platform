@@ -764,7 +764,7 @@ class DiscussionBoardFragmentView(EdxFragmentView):
             })
             
             if DISCUSSION_DISABLED.is_enabled(course_key):
-                html = "Error 404: NOT Found"
+                raise Http404
             elif profile_page_context:
                 # EDUCATOR-2119: styles are hard to reconcile if the profile page isn't also a fragment
                 html = render_to_string('discussion/discussion_profile_page.html', profile_page_context)
