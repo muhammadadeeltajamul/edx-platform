@@ -13,9 +13,11 @@ def monitor_import_failure(course_key, import_step, message=None, exception=None
     """
     set_custom_attribute('course_import_failure', import_step)
     set_custom_attributes_for_course_key(course_key)
+    logging.info(f"Course import failed at step {import_step} for course with key {course_key}")
 
     if message:
         set_custom_attribute('course_import_failure_message', message)
+        logging.info(f"Course import failed message {message}")
 
     if exception is not None:
         exception_module = getattr(exception, '__module__', '')
