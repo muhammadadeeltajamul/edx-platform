@@ -382,7 +382,7 @@ class XMLModuleStore(ModuleStoreReadBase):
         finally:
             if course_descriptor is None:
                 if str(target_course_id) == "course-v1:ArbiX+CS101+2014_T3":
-                    logging.info("Course Descriptor is None")
+                    logging.info(f"Investigation Log: {target_course_id} : Course Descriptor is None")
             elif isinstance(course_descriptor, ErrorBlock):
                 # Didn't load course.  Instead, save the errors elsewhere.
                 self.errored_courses[course_dir] = errorlog
@@ -489,7 +489,7 @@ class XMLModuleStore(ModuleStoreReadBase):
 
             if course_ids is not None and course_id not in course_ids:
                 if str(target_course_id) == "course-v1:ArbiX+CS101+2014_T3":
-                    logging.info("Course ID not in Course IDs (List)")
+                    logging.info(f"Investigation Log: {target_course_id} : Course ID not in Course IDs (List)")
                 return None
 
             def get_policy(usage_id):
@@ -526,7 +526,7 @@ class XMLModuleStore(ModuleStoreReadBase):
             # If we fail to load the course, then skip the rest of the loading steps
             if isinstance(course_descriptor, ErrorBlock):
                 if str(target_course_id) == "course-v1:ArbiX+CS101+2014_T3":
-                    logging.info("Course Descriptor is instance of ErrorBlock")
+                    logging.info(f"Investigation Log: {target_course_id} : Course Descriptor is instance of ErrorBlock")
                 return course_descriptor
 
             self.content_importers(system, course_descriptor, course_dir, url_name)
