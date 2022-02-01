@@ -247,6 +247,9 @@ def import_status_handler(request, course_key_string, filename=None):
         4 : Import successful
 
     """
+    if str(courselike_key) == "course-v1:ArbiX+CS101+2014_T3":
+        log.info(f"Import Status Handler {course_key_string}: Begin} ")
+
     course_key = CourseKey.from_string(course_key_string)
     if not has_course_author_access(request.user, course_key):
         raise PermissionDenied()
@@ -259,6 +262,8 @@ def import_status_handler(request, course_key_string, filename=None):
     for status_filter in STATUS_FILTERS:
         task_status = status_filter().filter_queryset(request, task_status, import_status_handler)
     task_status = task_status.order_by('-created').first()
+    if str(courselike_key) == "course-v1:ArbiX+CS101+2014_T3":
+        log.info("Selected task status for course " + str(task_status.__dict__))
     if task_status is None:
         # The task hasn't been initialized yet; did we store info in the session already?
         try:
@@ -275,6 +280,9 @@ def import_status_handler(request, course_key_string, filename=None):
             message = artifact.text
     else:
         status = min(task_status.completed_steps + 1, 3)
+
+    if str(courselike_key) == "course-v1:ArbiX+CS101+2014_T3":
+        log.info("Status for course " + str(status))
 
     return JsonResponse({"ImportStatus": status, "Message": message})
 
