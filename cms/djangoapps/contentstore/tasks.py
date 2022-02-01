@@ -526,11 +526,9 @@ def import_olx(self, user_id, course_key_string, archive_path, archive_name, lan
         return
 
     if not user_has_access(user):
-        logging.info(f'Course import {course_key_string}: User is not allowed to import')
         return
 
     if not file_is_supported():
-        logging.info(f'Course import {course_key_string}: File not supported')
         return
 
     is_library = isinstance(courselike_key, LibraryLocator)
@@ -750,7 +748,7 @@ def validate_course_olx(courselike_key, course_dir, status):
         if str(courselike_key) == "course-v1:ArbiX+CS101+2014_T3":
             logging.info(log_prefix + "Course validated. No errors")
     except Exception as e:  # pylint: disable=broad-except
-        LOGGER.exception(f'{log_prefix}: CourseOlx could not be validated' + str(e))
+        LOGGER.exception(f'{log_prefix}: CourseOlx could not be validated')
         return olx_is_valid
 
     has_errors = errorstore.return_error(ErrorLevel.ERROR.value)

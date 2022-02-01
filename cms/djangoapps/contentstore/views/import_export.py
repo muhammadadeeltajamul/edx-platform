@@ -248,7 +248,7 @@ def import_status_handler(request, course_key_string, filename=None):
 
     """
     if str(courselike_key) == "course-v1:ArbiX+CS101+2014_T3":
-        log.info(f"Import Status Handler {course_key_string}: Begin} ")
+        log.info(f"Import Status Handler {course_key_string}: Begin")
 
     course_key = CourseKey.from_string(course_key_string)
     if not has_course_author_access(request.user, course_key):
