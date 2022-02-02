@@ -743,7 +743,7 @@ def validate_course_olx(courselike_key, course_dir, status):
             ignore=settings.COURSE_OLX_VALIDATION_IGNORE_LIST,
             allowed_xblocks=ALL_ALLOWED_XBLOCKS
         )
-    except Exception:  # pylint: disable=broad-except
+    except Exception as e:  # pylint: disable=broad-except
         LOGGER.exception(f'{log_prefix}: CourseOlx could not be validated')
         return olx_is_valid
 

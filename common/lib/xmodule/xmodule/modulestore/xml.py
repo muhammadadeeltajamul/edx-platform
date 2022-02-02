@@ -390,6 +390,8 @@ class XMLModuleStore(ModuleStoreReadBase):
                 course_descriptor.parent = None
                 course_id = self.id_from_descriptor(course_descriptor)
                 self._course_errors[course_id] = errorlog
+        if str(target_course_id) == 'course-v1:ArbiX+CS101+2014_T3':
+            logging.info(f'Investigation Log: {target_course_id} : {course_descriptor}')
 
     def __str__(self):
         '''
@@ -487,6 +489,8 @@ class XMLModuleStore(ModuleStoreReadBase):
             course_id = self.get_id(org, course, url_name)
 
             if course_ids is not None and course_id not in course_ids:
+                if str(target_course_id) == 'course-v1:ArbiX+CS101+2014_T3':
+                    logging.info(f'Investigation Log: {target_course_id} : Course ID not in Course IDs (List)')
                 return None
 
             def get_policy(usage_id):
@@ -522,6 +526,8 @@ class XMLModuleStore(ModuleStoreReadBase):
             course_descriptor = system.process_xml(etree.tostring(course_data, encoding='unicode'))
             # If we fail to load the course, then skip the rest of the loading steps
             if isinstance(course_descriptor, ErrorBlock):
+                if str(target_course_id) == 'course-v1:ArbiX+CS101+2014_T3':
+                    logging.info(f'Investigation Log: {target_course_id} : Course Descriptor is instance of ErrorBlock')
                 return course_descriptor
 
             self.content_importers(system, course_descriptor, course_dir, url_name)
