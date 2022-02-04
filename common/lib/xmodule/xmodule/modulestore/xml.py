@@ -223,10 +223,10 @@ class ImportSystem(XMLParsingSystem, MakoDescriptorSystem):  # lint-amnesty, pyl
             # After setting up the descriptor, save any changes that we have
             # made to attributes on the descriptor to the underlying KeyValueStore.
             if str(target_course_id) == "course-v1:ArbiX+CS101+2014_T3":
-                log.info(f"Investigation Log: {target_course_id} : Saving Descriptor")
+                log.info(f"Investigation Log: {target_course_id} : Saving Descriptor with parent {descriptor.parent}")
             descriptor.save()
             if str(target_course_id) == "course-v1:ArbiX+CS101+2014_T3":
-                log.info(f"Investigation Log: {target_course_id} : Descriptor Saved")
+                log.info(f"Investigation Log: {target_course_id} : Descriptor Saved with parent {descriptor.parent}")
             return descriptor
 
         render_template = lambda template, context: ''
